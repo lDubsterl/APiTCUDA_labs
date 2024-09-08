@@ -17,7 +17,7 @@ void clean_memory(float** matrix, int size)
 		delete matrix[i];
 	}
 
-	delete matrix;
+	delete[] matrix;
 }
 
 float** generate_matrix()
@@ -28,18 +28,18 @@ float** generate_matrix()
 		matrix[i] = new float[MATRIX_SIZE];
 		for (int j = 0; j < MATRIX_SIZE; j++)
 		{
-			matrix[i][j] = (float)(rand() % 10); /// 10;
+			matrix[i][j] = (float)(rand() % 101) / 10;
 		}
 	}
 
 	return matrix;
 }
 
-void print_matrix(float** matrix, int size)
+void print_matrix(float** matrix)
 {
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < MATRIX_SIZE; i++)
 	{
-		for (int j = 0; j < size; j++)
+		for (int j = 0; j < MATRIX_SIZE; j++)
 		{
 			std::cout << matrix[i][j] << " ";
 		}
@@ -65,24 +65,6 @@ void matrix_multiplication_1(float** matrix_1, float** matrix_2, float** result)
 	}
 }
 
-//
-//float** mul(float** matrix_1, int start_x, int start_y, float** matrix_2, int start2_x, int start2_y, float** result) {
-//	float res = 0;
-//
-//	for (int i = 0; i < BLOCK_SIZE; i++)
-//	{
-//		for (int j = 0; j < BLOCK_SIZE; j++)
-//		{
-//			for (int k = 0; k < BLOCK_SIZE; k++)
-//			{
-//				res += matrix_1[start_x + i][start_x + k] * matrix_2[start2_x + j][start2_y + k];
-//			}
-//
-//			//result[x][y] += res;
-//		}
-//	}
-//}
-
 void blocks_handling(float** matrix_1, float** matrix_2, float** result, int matrix_1_row_offset, int matrix_1_column_offset, int matrix_2_row_offset, int matrix_2_column_offset, int result_row_offset, int result_column_offset)
 {
 	for (int i = 0; i < BLOCK_SIZE; i++)
@@ -101,11 +83,7 @@ void blocks_handling(float** matrix_1, float** matrix_2, float** result, int mat
 }
 
 void matrix_multiplication_2(float** matrix_1, float** matrix_2, float** result)
-{	
-	//blocks_handling(matrix_1, matrix_2, result, 0, 0, 0, 0, 0, 0); // 0 0 FIX
-	//blocks_handling(matrix_1, matrix_2, result, 0, BLOCK_SIZE, 0, BLOCK_SIZE, 0, BLOCK_SIZE); // 0 1
-	//blocks_handling(matrix_1, matrix_2, result, BLOCK_SIZE, 0, 0, 0, BLOCK_SIZE, 0); // 1 0
-	//blocks_handling(matrix_1, matrix_2, result, BLOCK_SIZE, BLOCK_SIZE, 0, BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE); // 1 1 FIX
+{
 	for (int i = 0; i < MATRIX_SIZE; i += BLOCK_SIZE)
 	{
 		for (int j = 0; j < MATRIX_SIZE; j += BLOCK_SIZE)
@@ -136,14 +114,14 @@ int main()
 		result[i] = new float[MATRIX_SIZE];
 	}
 
-	//print_matrix(matrix_1, MATRIX_SIZE);
+	//print_matrix(matrix_1);
 	std::cout << "-------------------\n";
-	//print_matrix(matrix_2, MATRIX_SIZE);
+	//print_matrix(matrix_2);
 	std::cout << "-------------------\n";
 	high_resolution_clock::time_point start = high_resolution_clock::now();
 	matrix_multiplication_1(matrix_1, matrix_2, result);
 	time_calculation(start);
-	//print_matrix(result, MATRIX_SIZE);
+	//print_matrix(result);
 	std::cout << "-------------------\n";
 	for (int i = 0; i < MATRIX_SIZE; i++)
 	{
@@ -156,6 +134,6 @@ int main()
 	start = high_resolution_clock::now();
 	matrix_multiplication_2(matrix_1, matrix_2, result);
 	time_calculation(start);
-	//print_matrix(result, MATRIX_SIZE);
+	//print_matrix(result);
 	return 0;
 }
