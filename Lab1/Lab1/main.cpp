@@ -50,17 +50,28 @@ void print_matrix(float** matrix)
 
 void matrix_multiplication_1(float** matrix_1, float** matrix_2, float** result)
 {
+	//for (int i = 0; i < MATRIX_SIZE; i++)
+	//{
+	//	for (int j = 0; j < MATRIX_SIZE; j++)
+	//	{
+	//		float result_elem = 0.0f;
+	//		for (int k = 0; k < MATRIX_SIZE; k++)
+	//		{
+	//			result_elem += matrix_1[i][k] * matrix_2[k][j];
+	//		}
+
+	//		result[i][j] = result_elem;
+	//	}
+	//}
+
 	for (int i = 0; i < MATRIX_SIZE; i++)
 	{
 		for (int j = 0; j < MATRIX_SIZE; j++)
 		{
-			float result_elem = 0.0f;
 			for (int k = 0; k < MATRIX_SIZE; k++)
 			{
-				result_elem += matrix_1[i][k] * matrix_2[k][j];
+				result[j][k] += matrix_1[j][i] * matrix_2[i][k];
 			}
-
-			result[i][j] = result_elem;
 		}
 	}
 }
@@ -74,10 +85,11 @@ void blocks_handling(float** matrix_1, float** matrix_2, float** result, int mat
 			float result_elem = 0.0f;
 			for (int k = 0; k < BLOCK_SIZE; k++)
 			{
-				result_elem += matrix_1[i + matrix_1_row_offset][k + matrix_1_column_offset] * matrix_2[k + matrix_2_row_offset][j + matrix_2_column_offset];
+				//result_elem += matrix_1[i + matrix_1_row_offset][k + matrix_1_column_offset] * matrix_2[k + matrix_2_row_offset][j + matrix_2_column_offset];
+				result[j + result_row_offset][k + result_column_offset] += matrix_1[j + matrix_1_row_offset][i + matrix_1_column_offset] * matrix_2[i + matrix_2_row_offset][k + matrix_2_column_offset];
 			}
 
-			result[i + result_row_offset][j + result_column_offset] += result_elem;
+			
 		}
 	}
 }
