@@ -7,7 +7,7 @@
 
 using namespace std::chrono;
 
-const int MATRIX_SIZE = sqrt(16 * 1024 * 1024 / sizeof(float));
+const int MATRIX_SIZE = sqrt(64 * 1024 * 1024 / sizeof(float));
 const int BLOCK_SIZE = sqrt(4 * 1024 * 1024 / sizeof(float));
 
 //const int MATRIX_SIZE = 16;
@@ -129,7 +129,7 @@ void blocks_handling(float** matrix_1, float** matrix_2, float** result,
 					k += 7;
 				}
 				else
-					result[j + result_row_offset][k + result_column_offset] += matrix_1[j + matrix_1_row_offset][i + matrix_1_column_offset] * matrix_2[i + matrix_2_row_offset][k + matrix_2_column_offset];
+					result[i + result_row_offset][k + result_column_offset] += matrix_1[i + matrix_1_row_offset][j + matrix_1_column_offset] * matrix_2[j + matrix_2_row_offset][k + matrix_2_column_offset];
 			}
 		}
 	}
